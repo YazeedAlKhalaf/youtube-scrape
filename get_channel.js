@@ -18,6 +18,7 @@ async function getChannel(channelId, languageCode) {
         // Get script json data from html to parse
         let data,
           sectionLists = [];
+        let header;
         try {
           let match = html.match(
             /ytInitialData[^{]*(.*"responseContext":[^;]*});/s
@@ -31,18 +32,18 @@ async function getChannel(channelId, languageCode) {
             );
           }
           data = JSON.parse(match[1]);
-          console.log(data);
           json["estimatedResults"] = data.estimatedResults || "0";
           sectionLists =
             data.contents.twoColumnBrowseResultsRenderer.tabs[1].tabRenderer
               .content.sectionListRenderer.contents;
+          header = data.header;
         } catch (ex) {
           console.error("Failed to parse data:", ex);
           console.log(data);
         }
 
         // Loop through all objects and parse data according to type
-        parseJsonFormat(sectionLists, json);
+        parseJsonFormat(sectionLists, header, json);
 
         return resolve(json);
       }
@@ -57,7 +58,10 @@ async function getChannel(channelId, languageCode) {
  * @param {Array} contents - The array of sectionLists
  * @param {Object} json - The object being returned to caller
  */
-function parseJsonFormat(contents, json) {
+function parseJsonFormat(contents, header, json) {
+  // get channel info
+  json.results.push(parseChannelInfo(header.c4TabbedHeaderRenderer));
+  // get videos list
   contents.forEach((sectionList) => {
     try {
       if (sectionList.hasOwnProperty("itemSectionRenderer")) {
@@ -121,6 +125,23 @@ function parseGridVideoRenderer(renderer) {
   };
 
   return { video: video };
+}
+
+/**
+ * Parse a c4TabbedHeaderRenderer object from youtube channel page
+ * @param {object} renderer - The c4TabbedHeaderRenderer
+ * @returns object with data to return for this video
+ */
+function parseChannelInfo(renderer) {
+  let channel_info = {
+    id: renderer.channelId,
+    title: renderer.title,
+    avatar: renderer.avatar.thumbnails[1],
+    banner: renderer.banner.thumbnails.last,
+    subscriber_count: renderer.subscriberCountText.simpleText,
+  };
+
+  return { channel_info: channel_info };
 }
 
 /**

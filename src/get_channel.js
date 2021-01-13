@@ -135,8 +135,8 @@ function parseChannelInfo(renderer) {
   let channel_info = {
     id: renderer.channelId,
     title: renderer.title,
-    avatar: renderer.avatar.thumbnails[1],
-    banner: renderer.banner.thumbnails[0],
+    avatar: renderer.avatar.thumbnails[1].url,
+    banner: renderer.banner.thumbnails[0].url,
     subscriber_count: renderer.subscriberCountText.simpleText,
   };
 

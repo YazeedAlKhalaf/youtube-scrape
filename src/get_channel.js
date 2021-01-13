@@ -136,7 +136,7 @@ function parseChannelInfo(renderer) {
     id: renderer.channelId,
     title: renderer.title,
     avatar: renderer.avatar.thumbnails[1],
-    banner: renderer.banner.thumbnails.last,
+    banner: renderer.banner.thumbnails[0],
     subscriber_count: renderer.subscriberCountText.simpleText,
   };
 

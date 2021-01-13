@@ -1,5 +1,7 @@
 const express = require("express");
 const scraper = require("./scraper");
+const getChannel = require("./get_channel");
+const { get } = require("request");
 const app = express();
 
 //Home page
@@ -16,6 +18,13 @@ app.get("/api/search", (req, res) => {
       req.query.pageToken,
       req.query.language
     )
+    .then((x) => res.json(x))
+    .catch((e) => res.send(e));
+});
+
+app.get("/api/channel/videos", (req, res) => {
+  getChannel
+    .getChannel(req.query.id, req.query.language)
     .then((x) => res.json(x))
     .catch((e) => res.send(e));
 });

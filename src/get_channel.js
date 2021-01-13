@@ -2,7 +2,7 @@ const request = require("request");
 
 async function getChannel(channelId, languageCode) {
   return new Promise((resolve, reject) => {
-    let json = { results: [], version: require("./package.json").version };
+    let json = { results: [], version: require("../package.json").version };
 
     let url = `https://www.youtube.com/channel/${channelId}/videos`;
     var options = {
@@ -32,7 +32,6 @@ async function getChannel(channelId, languageCode) {
             );
           }
           data = JSON.parse(match[1]);
-          json["estimatedResults"] = data.estimatedResults || "0";
           sectionLists =
             data.contents.twoColumnBrowseResultsRenderer.tabs[1].tabRenderer
               .content.sectionListRenderer.contents;
@@ -155,4 +154,4 @@ function comb(a, b) {
   return a + b.text;
 }
 
-module.exports.getChannel = getChannel;
+exports.getChannel = getChannel;

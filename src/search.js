@@ -1,8 +1,8 @@
 const request = require("request");
 
-async function youtube(query, key, pageToken, languageCode) {
+async function search(query, key, pageToken, languageCode) {
   return new Promise((resolve, reject) => {
-    let json = { results: [], version: require("./package.json").version };
+    let json = { results: [], version: require("../package.json").version };
 
     // Specify YouTube search url
     if (key) {
@@ -268,4 +268,4 @@ function comb(a, b) {
   return a + b.text;
 }
 
-module.exports.youtube = youtube;
+exports.search = search;

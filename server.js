@@ -15,7 +15,7 @@ app.get("/api/search", (req, res) => {
     .catch((e) => res.send(e));
 });
 
-app.get("/api/channel/videos", (req, res) => {
+app.get("/api/channel", (req, res) => {
   scraper
     .getChannel(req.query.id, req.query.language)
     .then((x) => res.json(x))

@@ -43,6 +43,8 @@ async function search(query, key, pageToken, languageCode) {
         url: url,
         headers: {
           "Accept-Language": languageCode ?? "en-US",
+          cookie:
+            "GPS=1; YSC=HHvigkjxhCk; VISITOR_INFO1_LIVE=dfaa7E_r83Q; CONSENT=WP.28f5f6; PREF=f6=40000000&f2=8000000",
         },
       };
       // Access YouTube search
